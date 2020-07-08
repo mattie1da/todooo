@@ -16,7 +16,7 @@
       <div class="task task--create">
         <label for="new-task" class="task__icon task__icon--create">+</label>
         <input :placeholder="placeholder" id="new-task" type="text" v-model="newTask" @keyup.enter="addTask()" class="task__input">
-        <!--<button class="task__submit" type="submit" @click.prevent="addTask(newTask)">Add task</button>-->
+        <button class="task__submit" type="submit" @click.prevent="addTask(newTask)">Add Task</button>
       </div>
     </form>
   </div>
@@ -29,7 +29,6 @@ export default {
     data() {
       return {
           tasks: [],
-          editedTask: '',
           newTask: '',
       }
     },
@@ -99,8 +98,7 @@ export default {
     position: relative;
 
     &:hover {
-      .task__icon--remove,
-      .task__icon--options {
+      .task__icon--remove {
         visibility: visible;
         opacity: 1;
       }
@@ -113,6 +111,12 @@ export default {
       margin-top: 2rem;
       padding: 0 0 .5rem 25px;
       position: relative;
+
+      @media (max-width: 750px) {
+        align-items: stretch;
+        border-bottom: none;
+        flex-direction: column;
+      }
     }
 
     &--complete {
@@ -140,35 +144,36 @@ export default {
     font-size: 1rem;
     outline: none;
     width: 100%;
+
+    .task--create & {
+      @media (max-width: 750px) {
+        border-bottom: 1px dashed var(--grey);
+      }
+    }
   }
 
   .task__icon {
     position: absolute;
     text-decoration: none;
 
-    &--remove,
-    &--options {
+    &--remove {
       color: lightgray;
       visibility: hidden;
       opacity: 0;
       padding: 5px;
-    }
-
-    &--remove {
       right: 1rem;
       top: 5px;
 
       &:hover {
         color: var(--error);
       }
-    }
 
-    &--options {
-      right: 2.25rem;
-      top: 4px;
-
-      &:hover {
-        color: var(--theme);
+      @media (max-width: 750px) {
+        font-size: 1.5rem;
+        opacity: 1;
+        right: -1.5rem;
+        top: 0;
+        visibility: visible;
       }
     }
 
@@ -205,24 +210,26 @@ export default {
     }
   }
 
-  .task__options {
-    background: lightgray;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    padding: .5rem;
-    position: absolute;
-    right: 2rem;
-    z-index: 2;
-  }
-
-  .task__option {
-    color: var(--dark);
-    text-decoration: none;
-  }
-
   .task__submit {
     display: none;
+
+    @media (max-width: 750px) {
+      align-self: flex-end;
+      background: var(--theme);
+      border: none;
+      border-radius: 1.5rem;
+      color: var(--light);
+      display: block;
+      font: inherit;
+      margin-top: 1rem;
+      padding: 1rem 2rem;
+
+      .app--slushy &,
+      .app--yellow &,
+      .app--white & {
+        color: var(--dark);
+      }
+    }
   }
 
   .error {

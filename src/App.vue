@@ -168,10 +168,11 @@ export default {
 
   .todos {
     padding-top: 10vw;
-    /*max-width: 450px;*/
+    width: 400px;
 
     @media (max-width: 750px) {
-      padding-top: 25vw;
+      padding: 25vw 0;
+      max-width: 100%;
     }
   }
 </style>
