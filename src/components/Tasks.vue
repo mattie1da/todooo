@@ -1,10 +1,10 @@
 <template>
   <div>
-    <form autocomplete="off">
+    <form @submit.prevent autocomplete="off">
       <ul v-if="tasks.length" class="tasks">
         <li class="task" v-for="(task, index) in tasks" :key="task.index" :class="{ 'task--complete' : task.complete }">
           <a href="#" class="task__icon task__icon--checkbox" @click.prevent="task.complete = !task.complete"></a>
-          <input type="text" v-model="task.name" class="task__input" :disabled="task.complete">
+          <input type="text" v-model="task.name" class="task__input" @keyup.enter="$event.target.blur()" :disabled="task.complete">
           <a href="#" @click.prevent="removeTask(index)" class="task__icon task__icon--remove">&times;</a>
         </li>
       </ul>
@@ -15,8 +15,8 @@
 
       <div class="task task--create">
         <label for="new-task" class="task__icon task__icon--create">+</label>
-        <input :placeholder="placeholder" id="new-task" type="text" v-model="newTask" class="task__input">
-        <button class="task__submit" type="submit" @click.prevent="addTask(newTask)">Add task</button>
+        <input :placeholder="placeholder" id="new-task" type="text" v-model="newTask" @keyup.enter="addTask()" class="task__input">
+        <!--<button class="task__submit" type="submit" @click.prevent="addTask(newTask)">Add task</button>-->
       </div>
     </form>
   </div>
@@ -29,15 +29,16 @@ export default {
     data() {
       return {
           tasks: [],
+          editedTask: '',
           newTask: '',
       }
     },
 
     methods: {
-        addTask(newTask) {
+        addTask() {
             if(this.newTask != '') {
                 this.tasks.push({
-                    name: newTask,
+                    name: this.newTask,
                     complete: false
                 });
                 this.newTask = '';
@@ -115,7 +116,7 @@ export default {
     }
 
     &--complete {
-      opacity: .5;
+      opacity: .4;
 
       .task__input {
         text-decoration: line-through;
